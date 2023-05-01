@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, send_from_directory
-from image_processor import ImageProcessor
+from ImageProcessor import ImageProcessor
 import os
 import uuid
 
