@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_from_directory
 from ImageProcessor import ImageProcessor
 import os
 import uuid
+import cv2
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
