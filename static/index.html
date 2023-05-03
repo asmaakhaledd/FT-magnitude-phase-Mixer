@@ -14,17 +14,20 @@
 </head>
 <body style="overflow-y:hidden">
     <h3 class="text-white p-3" style="background: #005D5C;">FT Magnitude & phase Mixer</h3>
+    <!-- -------------------------------------component1 start-------------------------------------- -->
     <div class="d-flex flex-row w-100"> 
     <div class="d-flex flex-column w-50 p-4">
         <div class="d-flex flex-column ">
             <h4>Image 1</h4>
             <div class="d-flex flex-row">
-            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-            <select class="form-select ms-4" id="inputGroupSelect03" aria-label="Example select with button addon">
-                <option selected>Choose...</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+            <input type="file" class="form-control" id="input1" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            <select class="form-select  ms-4" name="component1" id="component1">
+                <option value="Magnitude">Magnitude</option>
+                <option value="Phase">Phase</option>
+                <option value="Real">Real</option>
+                <option value="Imaginary">Imaginary</option>
+                <option value="Uniform Magnitude">Uniform Magnitude</option>
+                <option value="Uniform Phase">Uniform Phase</option>
             </select>
         </div>
         <br>
@@ -34,37 +37,40 @@
         </div>
         </div>
        <br>
+    <!-- -------------------------------------component1 end-------------------------------------- -->
+    <!-- -------------------------------------component2 start-------------------------------------- -->
         <div class="d-flex flex-column">
-        <!-- <div class="d-flex flex-column w-50 p-4"> -->
             <h4>Image 2</h4>
             <div class="d-flex flex-row">
-                <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
+                <input type="file" class="form-control" id="input2" aria-describedby="inputGroupFileAddon04"
                     aria-label="Upload">
-                <select class="form-select ms-4" id="inputGroupSelect03" aria-label="Example select with button addon">
-                    <option selected>Choose...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
+            <select class="form-select  ms-4" name="component2" id="component2">
+                <option selected disabled>Choose Component</option>
+                <option value="Magnitude">Magnitude</option>
+                <option value="Phase">Phase</option>
+                <option value="Real">Real</option>
+                <option value="Imaginary">Imaginary</option>
+                <option value="Uniform Magnitude">Uniform Magnitude</option>
+                <option value="Uniform Phase">Uniform Phase</option>
+            </select>
             </div>
             <br>
             <div class=" d-flex flex-row justify-content-around ">
                 <img src="/anya.jpg" alt="img1" width="300px">
                 <img src="/anya.jpg" alt="img1transform" width="300px">
             </div>
-        <!-- </div> -->
     </div>
     </div>
+    <!-- -------------------------------------component2 end-------------------------------------- -->
         <div class="d-flex flex-column w-50">
         <!-- ------------------------------------output-------------------------------------- -->
         <div class="d-flex flex-column  p-4">
                             <div class="d-flex justify-content-between align-items-center">
                             <h5>Mixer Output to:</h5>
                             <select class="form-select w-75" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option selected disabled>Open this select menu</option>
+                                <option value="1">Output 1</option>
+                                <option value="2">Output 2</option>
                             </select>
                             </div>
                             <br>
@@ -73,10 +79,9 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="w-50 pe-3">
                                 <select class="form-select" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option selected disabled>Open this select menu</option>
+                                    <option value="1">Image 1</option>
+                                    <option value="2">Image 2</option>
                                 </select>
                                 </div>
                                 <div class="w-50">
@@ -85,10 +90,13 @@
                             </div><br>
                             <div>
                             <select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option selected disabled>Choose Component</option>
+                                <option value="Magnitude">Magnitude</option>
+                                <option value="Phase">Phase</option>
+                                <option value="Real">Real</option>
+                                <option value="Imaginary">Imaginary</option>
+                                <option value="Uniform Magnitude">Uniform Magnitude</option>
+                                <option value="Uniform Phase">Uniform Phase</option>
                             </select>
                         </div>
                         <br>
@@ -97,10 +105,9 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="w-50 pe-3">
                                 <select class="form-select" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option selected disabled>Open this select menu</option>
+                                    <option value="1">Image 1</option>
+                                    <option value="2">Image 2</option>
                                 </select>
                                 </div>
                                 <div class="w-50">
@@ -109,10 +116,13 @@
                             </div><br>
                             <div>
                             <select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option selected disabled>Choose Component</option>
+                                <option value="Magnitude">Magnitude</option>
+                                <option value="Phase">Phase</option>
+                                <option value="Real">Real</option>
+                                <option value="Imaginary">Imaginary</option>
+                                <option value="Uniform Magnitude">Uniform Magnitude</option>
+                                <option value="Uniform Phase">Uniform Phase</option>
                             </select>
                         </div>
                         </div>
