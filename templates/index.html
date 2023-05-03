@@ -1,20 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Signal Equalizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">   
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"crossorigin="anonymous"></script>
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="/static/plotly-2.18.2.min.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="/static/style.css">
-
+    <title>FT Magnitude & phase Mixer</title>
 </head>
-<body>
 
+<body style="overflow-y:hidden">
+    <h3 class="text-white p-3" style="background: #005D5C;">FT Magnitude & phase Mixer</h3>
+    <!-- -------------------------------------component1 start-------------------------------------- -->
+    <div class="d-flex flex-row w-100">
+        <div class="d-flex flex-column w-50 p-4">
+            <form id="form1">
+                <div class="d-flex flex-column ">
+                    <h4>Image 1</h4>
+                    <div class="d-flex flex-row">
+                        <input type="file" class="form-control" id="input1" aria-describedby="inputGroupFileAddon04"
+                            aria-label="Upload">
+                        <select class="form-select  ms-4" name="component1" id="component1">
+                            <option value="Magnitude">Magnitude</option>
+                            <option value="Phase">Phase</option>
+                            <option value="Real">Real</option>
+                            <option value="Imaginary">Imaginary</option>
+                            <option value="Uniform Magnitude">Uniform Magnitude</option>
+                            <option value="Uniform Phase">Uniform Phase</option>
+                        </select>
+                    </div>
+            </form>
+            <br>
+            <div class=" d-flex flex-row justify-content-around">
+                <img id="img1" src="#" alt="img1" width="300px">
+                <img id="img1transform" src="#" alt="img1transform" width="300px">
+            </div>
+        </div>
+        <br>
+        <!-- -------------------------------------component1 end-------------------------------------- -->
+        <!-- -------------------------------------component2 start-------------------------------------- -->
+        <div class="d-flex flex-column">
+            <h4>Image 2</h4>
+            <div class="d-flex flex-row">
+                <input type="file" class="form-control" id="input2" aria-describedby="inputGroupFileAddon04"
+                    aria-label="Upload">
+                <select class="form-select  ms-4" name="component2" id="component2">
+                    <option selected disabled>Choose Component</option>
+                    <option value="Magnitude">Magnitude</option>
+                    <option value="Phase">Phase</option>
+                    <option value="Real">Real</option>
+                    <option value="Imaginary">Imaginary</option>
+                    <option value="Uniform Magnitude">Uniform Magnitude</option>
+                    <option value="Uniform Phase">Uniform Phase</option>
+                </select>
+            </div>
+            <br>
+            <div class=" d-flex flex-row justify-content-around ">
+                <img id="img2" src="#" alt="img2" width="300px">
+                <img id="img2transform" src="#" alt="img2transform" width="300px">
+            </div>
+        </div>
+    </div>
+    <!-- -------------------------------------component2 end-------------------------------------- -->
+    <div class="d-flex flex-column w-50">
+        <!-- ------------------------------------output-------------------------------------- -->
+        <div class="d-flex flex-column  p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Mixer Output to:</h5>
+                <select class="form-select w-75" aria-label="Default select example">
+                    <option selected disabled>Open this select menu</option>
+                    <option value="1">Output 1</option>
+                    <option value="2">Output 2</option>
+                </select>
+            </div>
+            <br>
+            <div class="d-flex flex-column">
+                <h5 class="d-inline">Component 1</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="w-50 pe-3">
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected disabled>Open this select menu</option>
+                            <option value="1">Image 1</option>
+                            <option value="2">Image 2</option>
+                        </select>
+                    </div>
+                    <div class="w-50">
+                        <input class="w-100" type="range" step="1" value="0" min="0" max="100">
+                    </div>
+                </div><br>
+                <div>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected disabled>Choose Component</option>
+                        <option value="Magnitude">Magnitude</option>
+                        <option value="Phase">Phase</option>
+                        <option value="Real">Real</option>
+                        <option value="Imaginary">Imaginary</option>
+                        <option value="Uniform Magnitude">Uniform Magnitude</option>
+                        <option value="Uniform Phase">Uniform Phase</option>
+                    </select>
+                </div>
+                <br>
+            </div>
+            <h5 class="d-inline">Component 2</h5>
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="w-50 pe-3">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected disabled>Open this select menu</option>
+                        <option value="1">Image 1</option>
+                        <option value="2">Image 2</option>
+                    </select>
+                </div>
+                <div class="w-50">
+                    <input class="w-100" type="range" step="1" value="0" min="0" max="100">
+                </div>
+            </div><br>
+            <div>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected disabled>Choose Component</option>
+                    <option value="Magnitude">Magnitude</option>
+                    <option value="Phase">Phase</option>
+                    <option value="Real">Real</option>
+                    <option value="Imaginary">Imaginary</option>
+                    <option value="Uniform Magnitude">Uniform Magnitude</option>
+                    <option value="Uniform Phase">Uniform Phase</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- -------------------------------------output end ---------------------------------->
+        <!-- ----------------------------------output imgs-------------------------------- -->
+        <div class="p-4 d-flex flex-row justify-content-around align-items-end">
+            <div>
+                <h5>Output 1</h5>
+                <img id="output1" src="#" alt="output1" width="300px">
+            </div>
+            <div>
+                <h5>Output 2</h5>
+                <img id="output2" src="#" alt="output2" width="300px">
+            </div>
+        </div>
+    </div>
+    <!-- -------------------------------output images end------------------------------------ -->
+    </div>
+    </div>
+    </div>
+
+
+    <script src="/static/app.js"></script>
 </body>
+
 </html>
