@@ -1,0 +1,144 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:29:41] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:29:41] "[33mGET /static/plotly-2.18.2.min.js HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:29:41] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:29:41] "[33mGET /static/plotly-2.18.2.min.js HTTP/1.1[0m" 404 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\io.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\base64.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pytz_deprecation_shim\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pytz_deprecation_shim\\_exceptions.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pytz_deprecation_shim\\_impl.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\requests_oauthlib\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\rich\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\rsa\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\rsa\\key.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\rsa\\pkcs1.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\scipy\\cluster\\__init__.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\smmap\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\client.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\base_manager.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\pubsub_manager.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\kombu_manager.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\redis_manager.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\kafka_manager.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\zmq_manager.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\server.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\namespace.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\middleware.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\tornado.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\asyncio_client.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\asyncio_server.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\asyncio_manager.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\asyncio_namespace.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\asyncio_redis_manager.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\asyncio_aiopika_manager.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\socketio\\asgi.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\streamlit\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\streamlit\\echo.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\streamlit\\elements\\spinner.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\streamlit\\commands\\page_config.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\streamlit\\commands\\execution_control.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\tlz\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\toolz\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\tornado\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\tzdata\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\uritemplate\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\uritemplate\\api.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\uritemplate\\template.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\validators\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\validators\\card.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\validators\\extremes.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\validators\\hashes.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\validators\\i18n\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\validators\\i18n\\fi.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\validators\\ip_address.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\validators\\utils.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\watchdog\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\werkzeug\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\werkzeug\\serving.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\werkzeug\\test.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\wfdb\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\zipp\\__init__.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:30:12] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:30:12] "[33mGET /static/plotly-2.18.2.min.js HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:30:12] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:30:12] "[33mGET /static/plotly-2.18.2.min.js HTTP/1.1[0m" 404 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\logging\\__init__.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\numpy\\fft\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\numpy\\fft\\_pocketfft.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\numpy\\__init__.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\cv2\\__init__.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:45:25] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:45:25] "[33mGET /static/plotly-2.18.2.min.js HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:45:25] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:45:25] "[33mGET /static/plotly-2.18.2.min.js HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:45:28] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:45:28] "[33mGET /static/plotly-2.18.2.min.js HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:45:28] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:45:28] "[33mGET /static/plotly-2.18.2.min.js HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:46:14] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:46:14] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:46:15] "GET /static/app.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:46:15] "GET /static/app.js HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 935-601-278
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:46:25] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:46:25] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/May/2023 01:46:25] "[36mGET /static/app.js HTTP/1.1[0m" 304 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\maria\\OneDrive\\Desktop\\HEM year2 term 2\\dsp\\tasks\\task4\\FT-magnitude-phase-Mixer\\app.py', reloading
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
