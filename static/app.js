@@ -68,78 +68,37 @@ document.querySelectorAll(".fileinput").forEach((input,index)=>{
   })
 })
 
-// input1.addEventListener("change", () => {
-//   const file = input1.files[0];
-//   // check if formData1 has file field
-//   if (!formData1.has("file")) {
-//     // append data to formData1
-//     formData1.set("file", file);
-//   } else {
-//     // set new data to formData1
-//     formData1.append("file", file);
-//   }
-//   const reader = new FileReader();
-//   reader.addEventListener('load', () => {
-//     img1.src = reader.result;
-//   });
-//     reader.readAsDataURL(file);
-//   //check formdata empty , append formdata , if not pop then append new
-// });
+document.querySelectorAll(".mixerimage").forEach((imageSelector,index)=>{
+imageSelector.addEventListener("change",()=>{
+  const selectedOutput = document.querySelector(".selectmixeroutput").value;
+  const selectedImage=imageSelector.value
+  const selectedComponent=document.querySelectorAll(".mixercomponent")[index].value;
+  const sliderValue = document.querySelectorAll(".mixerrange")[index].value;
+})
+});
 
-// input2.addEventListener("change", () => {
-//  // check if formData2 has file field
-//   if (!formData2.has("file")) {
-//     // append data to formData2
-//     formData2.append("file", img2);
-//   } else {
-//     // set new data to formData2
-//     formData2.set("file", img2);
-//   }
-//   //check size image warning
-//   const file = input2.files[0];
+document.querySelectorAll(".mixercomponent").forEach((componentSelector, index) => {
+  componentSelector.addEventListener("change", () => {
+    const selectedOutput = document.querySelector(".selectmixeroutput").value;
+    const selectedImage =document.querySelectorAll(".mixerimage")[index].value.value;
+    const selectedComponent = componentSelector.value;
+    const sliderValue = document.querySelectorAll(".mixerrange")[index].value;
+  });
+});
 
-//   img2.onload = () => {
-//     if (
-//       img2.naturalWidth !== img1.naturalWidth ||
-//       img2.naturalHeight !== img1.naturalHeight
-//     ) {
-//       alert("Image size does not match!");
-//       return;
-//     }
-//     img2.src = reader.result;
-//     fetch("/process_image", {
-//       method: "POST",
-//       body: new FormData(document.getElementById("form2")),
-//     })
-//       .then((response) => response.json())
-//       .then((data) => {
-//         img2transform.src = "data:image/png;base64," + data.output;
-//       });
-//   };
-// });
-//append component chosen img1 and img2 independently
+document.querySelectorAll(".mixerrange").forEach((ratioslider, index) => {
+  ratioslider.addEventListener("change", () => {
+    const selectedOutput = document.querySelector(".selectmixeroutput").value;
+    const selectedImage = document.querySelectorAll(".mixerimage")[index].value.value;
+    const selectedComponent = document.querySelectorAll(".mixercomponent")[index].value;
+    const sliderValue = ratioslider.value;
+  });
+});
 
-// img1component.addEventListener("change", () => {
-//   const selectedValue = img1component.value;
-//   if (formData1.has("component")) {
-//     formData1.set('component', selectedValue);
-//   }
-//   else{
-//     formData1.append('component',selectedValue);
-//   }
-//     fetch("/process_image", {
-//     method: "POST",
-//     body: formData1,
-//   })
-//     .then((response) => response.blob())
-//     .then((data) => {
-//       console.log("img",data)
-//       const url = URL.createObjectURL(data);
-//       img1transform.src = url;
-//     });
-// });
+// document.querySelector(".selectmixeroutput").addEventListener("change",()=>{
+//   const selectedOutput = document.querySelector(".selectmixeroutput").value;
 
-
+// })
 // //output mixer
 // const outputSelect = document.getElementById("output-select");
 // const component1Select = document.getElementById("component1-select");

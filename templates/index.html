@@ -73,7 +73,7 @@
         <div class="d-flex flex-column  p-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h5>Mixer Output to:</h5>
-                <select class="form-select w-75" aria-label="Default select example">
+                <select class="form-select w-75 selectmixeroutput" aria-label="Default select example">
                     <option selected disabled>Open this select menu</option>
                     <option value="1">Output 1</option>
                     <option value="2">Output 2</option>
@@ -84,18 +84,18 @@
                 <h5 class="d-inline">Component 1</h5>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="w-50 pe-3">
-                        <select class="form-select" aria-label="Default select example">
+                        <select class="form-select mixerimage" aria-label="Default select example">
                             <option selected disabled>Open this select menu</option>
                             <option value="1">Image 1</option>
                             <option value="2">Image 2</option>
                         </select>
                     </div>
                     <div class="w-50">
-                        <input class="w-100" type="range" step="1" value="0" min="0" max="100">
+                        <input class="w-100 mixerrange" type="range" step="1" value="0" min="0" max="100">
                     </div>
                 </div><br>
                 <div>
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select mixercomponent" aria-label="Default select example">
                         <option selected disabled>Choose Component</option>
                         <option value="Magnitude">Magnitude</option>
                         <option value="Phase">Phase</option>
@@ -110,18 +110,18 @@
             <h5 class="d-inline">Component 2</h5>
             <div class="d-flex align-items-center justify-content-between">
                 <div class="w-50 pe-3">
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select mixerimage" aria-label="Default select example">
                         <option selected disabled>Open this select menu</option>
                         <option value="1">Image 1</option>
                         <option value="2">Image 2</option>
                     </select>
                 </div>
                 <div class="w-50">
-                    <input class="w-100" type="range" step="1" value="0" min="0" max="100">
+                    <input class="w-100 mixerrange" type="range" step="1" value="0" min="0" max="100">
                 </div>
             </div><br>
             <div>
-                <select class="form-select" aria-label="Default select example">
+                <select class="form-select mixercomponent" aria-label="Default select example">
                     <option selected disabled>Choose Component</option>
                     <option value="Magnitude">Magnitude</option>
                     <option value="Phase">Phase</option>
