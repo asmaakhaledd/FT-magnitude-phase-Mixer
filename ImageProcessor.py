@@ -15,6 +15,7 @@ class ImageProcessor:
         self.ft_shift = np.fft.fftshift(self.ft)    
 
     def open_image(self, file) -> bool:
+        print(file)
         self.image = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_GRAYSCALE)
         if self.image is None:
             logging.error(f"Failed to open image")
@@ -23,7 +24,14 @@ class ImageProcessor:
         return True
 
     def display_image(self, component):
-        result=0
+        result=self.component_result(component)
+        norm = cv2.normalize(result, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+        retval, buffer = cv2.imencode('.jpg', norm)
+        response = buffer.tobytes()
+        logging.info(f"Applied transformation on image")
+        return response
+
+    def component_result(self, component):
         if component == "Magnitude":
             #absolute value of the complex number at each point in the Fourier transformed image. It represents the strength of the corresponding frequency component. 
             #By taking the logarithm of the magnitude, we can obtain a more visually interpretable version of the Fourier spectrum (magnitude spectrum)
@@ -52,55 +60,26 @@ class ImageProcessor:
         else:
             logging.warning(f"Invalid component: {component}")
             return None
-        norm = cv2.normalize(result, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-        retval, buffer = cv2.imencode('.jpg', norm)
-        response = buffer.tobytes()
-        logging.info(f"Applied transformation on image")
-        return response
+        return result
 
 
-    def mix_components(self, other_image: np.ndarray, component1: str, component2: str, ratio: float) -> np.ndarray:
-        if component1 == "magnitude":
-            ft1 = np.abs(self.ft)
-        elif component1 == "phase":
-            ft1 = np.exp(1j * np.angle(self.ft))
-        elif component1 == "real":
-            ft1 = self.ft.real
-        elif component1 == "imaginary":
-            ft1 = self.ft.imag
-        elif component1 == "uniform_magnitude":
-            ft1 = np.ones_like(self.ft)
-        elif component1 == "uniform_phase":
-            ft1 = np.zeros_like(self.ft)
-        else:
-            logging.warning(f"Invalid component: {component1}")
-            return None
+    def return_fft(self):
+        return self.ft
 
-        if component2 == "magnitude":
-            ft2 = np.abs(np.fft.fft2(other_image))
-        elif component2 == "phase":
-            ft2 = np.exp(1j * np.angle(np.fft.fft2(other_image)))
-        elif component2 == "real":
-            ft2 = np.fft.fft2(other_image).real
-        elif component2 == "imaginary":
-            ft2 = np.fft.fft2(other_image).imag
-        elif component2 == "uniform_magnitude":
-            ft2 = np.ones_like(self.ft)
-        elif component2 == "uniform_phase":
-            ft2 = np.zeros_like(self.ft)
-        else:
-            logging.warning(f"Invalid component: {component2}")
-            return None
 
-        mixed_ft = (1 - ratio / 100) * ft1 + (ratio / 100) * ft2
+    def mix_components(self, resultI, resutII, fft1, fft2, ratioI, ratioII):
+        # Calculate the mixing ratio
+        total = ratioI + ratioII
+        ratio1 = ratioI / total
+        ratio2 = ratioII / total
+       # Mix the two Fourier transforms according to the given ratios
+        mixed_ft = ratio1 * fft1 + ratio2 * fft2
+       # Inverse Fourier transform to get the mixed image
         mixed_image = np.fft.ifft2(mixed_ft).real
+       # Normalize the image and return it
         mixed_image = cv2.normalize(mixed_image, None, 0, 255, cv2.NORM_MINMAX, cv2.CV_8U)
         return mixed_image
 
+  
 
-    # def check_size(self, other_image: np.ndarray) -> bool:
-    #     if self.image.shape == other_image.shape:
-    #         return True
-    #     logging.warning("Image sizes do not match")
-    #     return False
-    
+  
