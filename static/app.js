@@ -16,6 +16,9 @@ const componentSelectorTwo=document.getElementById("componentselector2");
 const ratioSliderOne=document.getElementById("ratioslider1");
 const ratioSliderTwo = document.getElementById("ratioslider2");
 
+const output1 = document.getElementById("output1");
+const output2 = document.getElementById("output2");
+
 const formData1 = new FormData();
 formData1.append("file", "");
 formData1.append("component", "");

@@ -67,7 +67,7 @@ class ImageProcessor:
         return self.ft
 
 
-    def mix_components(self, resultI, resutII, fft1, fft2, str_ratioI, str_ratioII):
+    def mix_components(self, resultI, resultII, fft1, fft2, str_ratioI, str_ratioII):
         # Calculate the mixing ratio
         ratioI=int(str_ratioI)
         ratioII=int(str_ratioII)

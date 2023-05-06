@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify,  Response
+from flask import Flask, make_response, render_template, request, jsonify,  Response
 from ImageProcessor import ImageProcessor
 import io
 import cv2
@@ -36,15 +36,21 @@ def fftmixer():
     processor1.perform_fft()
     processor1_fft=processor1.return_fft()
     component_result1 = processor1.component_result(component1)
-    
+
     processor2.open_image(image2)
     processor2.perform_fft()
     processor2_fft=processor2.return_fft()
-    component_result2 = processor1.component_result(component2)
+    component_result2 = processor2.component_result(component2)
 
-    response = processor.mix_components(component_result1,component_result2,processor1_fft,processor2_fft,ratio1,ratio2)
+    mixed_image = processor.mix_components(component_result1,component_result2,processor1_fft,processor2_fft,ratio1,ratio2)
 
-    return Response(response=response, status=200, mimetype='image/jpeg')
+    mixed_image_bytes = mixed_image.tobytes()
+
+    response = make_response(mixed_image_bytes)
+    response.headers.set('Content-Type', 'image/jpeg')
+    response.headers.set('Content-Disposition', 'attachment', filename='mixed_image.jpg')
+
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
