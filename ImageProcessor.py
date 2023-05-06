@@ -66,28 +66,59 @@ class ImageProcessor:
     def return_fft(self):
         return self.ft
 
-
     def mix_components(self, resultI, resultII, fft1, fft2, str_ratioI, str_ratioII):
-        # Calculate the mixing ratio
-        ratioI=int(str_ratioI)
-        ratioII=int(str_ratioII)
-        print("ratio1",ratioI)
-        print("ratio2",ratioII)
+        # Check if the input parameters are valid
+        if resultI is None or resultII is None or fft1 is None or fft2 is None:
+            logging.error("Invalid input parameters")
+            return None
+        ratioI = int(str_ratioI)
+        ratioII = int(str_ratioII)
         total = ratioI + ratioII
         ratio1 = ratioI / total
         ratio2 = ratioII / total
-       # Mix the two Fourier transforms according to the given ratios
-        mixed_ft = ratio1 * resultI + ratio2 * resultII
-       # Inverse Fourier transform to get the mixed image
-        mixed_image = np.fft.ifft2(mixed_ft).real
-       # Normalize the image and return it
-        norm = cv2.normalize(mixed_image, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+        # Mix the two component results
+        mixed_result = cv2.addWeighted(resultI, ratio1, resultII, ratio2, 0)
+        # Create a three-channel array representing the mixed Fourier transform
+        mixed_fft = np.zeros((fft1.shape[0], fft1.shape[1], 3), dtype=np.float32)
+        mixed_fft[:, :, 1] = fft2.real
+        mixed_fft[:, :, 2] = fft2.imag
+        mixed_fft[:, :, 0] = mixed_result
+
+        # Inverse Fourier transform to get the mixed image
+        mixed_image = np.fft.ifft2(np.fft.ifftshift(mixed_fft[:, :, 0] + mixed_fft[:, :, 1]*1j + mixed_fft[:, :, 2]*1j)).real
+        # Normalize the image and return it
+        norm = cv2.normalize(mixed_image, None, 0, 1, cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+        norm = (255*norm).astype(np.uint8)
         retval, buffer = cv2.imencode('.jpg', norm)
         response = buffer.tobytes()
         logging.info(f"Applied transformation on image")
         return response
+
+
+
+
+
+    # def mix_components(self, resultI, resultII, fft1, fft2, str_ratioI, str_ratioII):
+    #     # Calculate the mixing ratio
+    #     ratioI=int(str_ratioI)
+    #     ratioII=int(str_ratioII)
+    #     print("ratio1",ratioI)
+    #     print("ratio2",ratioII)
+    #     total = ratioI + ratioII
+    #     ratio1 = ratioI / total
+    #     ratio2 = ratioII / total
+    #    # Mix the two Fourier transforms according to the given ratios
+    #     mixed_ft = ratio1 * resultI + ratio2 * resultII
+    #    # Inverse Fourier transform to get the mixed image
+    #     mixed_image = np.fft.ifft2(mixed_ft).real
+    #    # Normalize the image and return it
+    #     norm = cv2.normalize(mixed_image, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+    #     retval, buffer = cv2.imencode('.jpg', norm)
+    #     response = buffer.tobytes()
+    #     logging.info(f"Applied transformation on image")
+    #     return response
     
-        # return mixed_image
+    #     # return mixed_image
 
     # def mixer(self,image1bytes,image2bytes,str_ratio1,str_ratio2):
     #     # Decode the image bytes into numpy arrays
