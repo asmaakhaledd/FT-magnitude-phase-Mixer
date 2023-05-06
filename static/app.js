@@ -22,6 +22,16 @@ formData1.append("component", "");
 const formData2 = new FormData();
 formData2.append("file", "");
 formData2.append("component", "");
+let imageFile1;
+let imageFile2;
+
+let formDataMix = new FormData();
+formDataMix.append("image1", "");
+formDataMix.append("component1", "Real");
+formDataMix.append("ratio1", 0);
+formDataMix.append("image2", "");
+formDataMix.append("component2", "Real");
+formDataMix.append("ratio2", 0);
 
 document.querySelectorAll(".imagecomponent").forEach((component,index)=>{
   component.addEventListener("change",()=>{
@@ -53,8 +63,13 @@ document.querySelectorAll(".fileinput").forEach((input,index)=>{
   input.addEventListener("change",()=>{
     const file = input.files[0];
     const reader = new FileReader();
-    index===0? formData1.set("file", file):formData2.set("file", file);
+    // index===0? formData1.set("file", file):formData2.set("file", file);
+    // index === 0 ? (imageFile1 = file) : imageFile2=file ;
     if(index===0){
+      formData1.set("file", file);
+      imageFile1 = file;
+      formDataMix.set("image1", imageFile1);
+      formDataMix.set("image2", imageFile1);
       reader.addEventListener('load', () => {
         img1.src = reader.result;
       });
@@ -68,6 +83,8 @@ document.querySelectorAll(".fileinput").forEach((input,index)=>{
         return;
       }
     }
+    formData2.set("file", file);
+    imageFile2 = file;
       reader.addEventListener('load', () => {
         img2.src = reader.result;
       });
@@ -76,34 +93,62 @@ document.querySelectorAll(".fileinput").forEach((input,index)=>{
   })
 })
 
+  document.querySelectorAll(".mixerimage").forEach((image, index) => {
+    image.addEventListener("change",()=>{
+    if(index==0){
+      image.value == "img1"
+        ? formDataMix.set("image1", imageFile1)
+        : formDataMix.set("image1", imageFile2);
+    }else{
+      image.value == "img1"
+        ? formDataMix.set("image2", imageFile1)
+        : formDataMix.set("image2", imageFile2);
+    }
+    mixImages();
+    })
+  });
 
-let data = {
-  componentOne: { image: formData1.get("file"), component: "Real", ratio: 0 },
-  componentTwo: { image: formData1.get("file"), component: "Real", ratio: 0 },
-};
-// let formData = new FormData();
-// let formDataComponent1= new FormData();
-// let formDataComponent2 = new FormData();
-// formDataComponent1.append("image", formData1.get("file"));
-// formDataComponent1.append("component","Real");
-// formDataComponent1.append("ratio",0);
-// formDataComponent2.append("image", formData1.get("file"));
-// formDataComponent2.append("component", "Real");
-// formDataComponent2.append("ratio", 0);
-// formData.append("formDataComponent1", formDataComponent1);
-// formData.append("formDataComponent2", formDataComponent2);
+  document.querySelectorAll(".mixercomponent").forEach((component, index) => {
+    component.addEventListener("change", () => {
+      if (index == 0) {
+        formDataMix.set("component1",component.value); 
+      } else {
+        formDataMix.set("component2", component.value); 
+      }
+      mixImages();
+    });
+  });
 
-let formData = new FormData();
-formData.append("image1", formData1.get("file"));
-formData.append("component1", "Real");
-formData.append("ratio1",0);
-formData.append("image2", formData1.get("file"));
-formData.append("component2", "Real");
-formData.append("ratio2", 0);
+  document.querySelectorAll(".mixerrange").forEach((slider, index) => {
+    slider.addEventListener("change", () => {
+      if (index == 0) {
+        formDataMix.set("ratio1", slider.value);
+      } else {
+        formDataMix.set("ratio2", slider.value);
+      }
+      
+      mixImages();
+    });
+  });
 
-// let componentOne={ image: null, component: null, ratio: null };
-// let componentTwo = { image: null, component: null, ratio: null };
-//component mixer1----------------------------
+  outputSelector.addEventListener("change",()=>{
+    mixImages();
+  })
+
+  function mixImages(){
+    fetch("/fftmixer", {
+      method: "POST",
+      body: formDataMix,
+    })
+      .then((response) => response.blob())
+      .then((result) => {
+        console.log("img", result);
+        const url = URL.createObjectURL(result);
+        document.getElementById(outputSelector.value).src = url;
+      });
+  }
+  
+  //component mixer1----------------------------
 // imageSelectorOne.addEventListener("change", () => {
 //   imageSelectorOne.value == 1
 //     ? (componentOne.image = img1.src)
@@ -118,62 +163,6 @@ formData.append("ratio2", 0);
   //   componentOne.component = ratioSliderOne.value;
   // });
 
-  document.querySelectorAll(".mixerimage").forEach((image, index) => {
-    image.addEventListener("change",()=>{
-    if(index==0){
-      image.value == "img1"
-        ? (data.componentOne.image = formData1.get("file"))
-        : (data.componentOne.image = formData2.get("file"));
-    }else{
-      image.value == "img2"
-        ? (data.componentTwo.image = formData1.get("file"))
-        : (data.componentTwo.image = formData2.get("file"));
-    }
-    mixImages();
-    })
-  });
-
-  document.querySelectorAll(".mixercomponent").forEach((component, index) => {
-    component.addEventListener("change", () => {
-      if (index == 0) {
-        data.componentOne.component = component.value;
-      } else {
-        data.componentTwo.component = component.value;
-      }
-      mixImages();
-    });
-  });
-
-  document.querySelectorAll(".mixerrange").forEach((slider, index) => {
-    slider.addEventListener("change", () => {
-      if (index == 0) {
-        formData.set("ratio1", slider.value);
-      } else {
-        formData.set("ratio2", slider.value);
-      }
-      console.log("slider changed",index)
-      console.log(formData1.get("file"));
-      mixImages();
-    });
-  });
-
-  outputSelector.addEventListener("change",()=>{
-    mixImages();
-  })
-
-  function mixImages(){
-    fetch("/fftmixer", {
-      method: "POST",
-      // headers: { "Content-Type": "application/json" },
-      body: formData,
-    })
-      .then((response) => response.blob())
-      .then((result) => {
-        console.log("img", result);
-        const url = URL.createObjectURL(result);
-        document.getElementById(outputSelector.value).src = url;
-      });
-  }
 //component mixer 2------------------------------
 // imageSelectorTwo.addEventListener("change", () => {
 //   imageSelectorTwo.value == 1

@@ -26,7 +26,7 @@ def process_image():
 @app.route('/fftmixer', methods=['POST'])
 def fftmixer():
     image1 = request.files['image1']
-    image2=request.files['image2']
+    image2 = request.files['image2']
     component1 = request.form['component1']
     component2 = request.form['component2']
     ratio1 = request.form['ratio1']
