@@ -34,18 +34,18 @@ def fftmixer():
 
     processor1.open_image(image1)
     processor1.perform_fft()
-    response1 =processor1.display_image(component1)
+    # response1 =processor1.display_image(component1)
     processor1_fft=processor1.return_fft()
     component_result1 = processor1.component_result(component1)
 
     processor2.open_image(image2)
     processor2.perform_fft()
     processor2_fft=processor2.return_fft()
-    response2 =processor2.display_image(component2)
+    # response2 =processor2.display_image(component2)
     component_result2 = processor2.component_result(component2)
 
     # mixed_image =processor.mixer(response1,response2,ratio1,ratio2)
-    mixed_image =processor.mix_components(component_result1,component_result2,processor1_fft,processor2_fft,ratio1,ratio2)
+    mixed_image =processor.mix_components(component1,component2,processor1,processor2,ratio1,ratio2)
     
     return Response(response=mixed_image, status=200, mimetype='image/jpeg')
     # mixed_image_bytes = mixed_image.tobytes()

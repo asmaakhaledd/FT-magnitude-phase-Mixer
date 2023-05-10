@@ -30,10 +30,10 @@ let imageFile2;
 
 let formDataMix = new FormData();
 formDataMix.append("image1", "");
-formDataMix.append("component1", "Real");
+formDataMix.append("component1", "Magnitude");
 formDataMix.append("ratio1", 0);
 formDataMix.append("image2", "");
-formDataMix.append("component2", "Real");
+formDataMix.append("component2", "Magnitude");
 formDataMix.append("ratio2", 0);
 
 document.querySelectorAll(".imagecomponent").forEach((component,index)=>{
