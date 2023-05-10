@@ -72,7 +72,7 @@ class ImageProcessor:
             logging.error("Invalid input parameters")
             return None
         ratioI = int(str_ratioI)
-        ratioII = int(str_ratioII)
+        ratioII = int(str_ratioII)# zero condition test case
         total = ratioI + ratioII
         ratio1 = ratioI / total
         ratio2 = ratioII / total
@@ -140,3 +140,21 @@ class ImageProcessor:
     #     return response
 
   
+    def mix_components(self, resultI, resultII, str_ratioI, str_ratioII):
+            # Check if the input parameters are valid
+            if resultI is None or resultII is None:
+                logging.error("Invalid input parameters")
+                return None
+            ratioI = int(str_ratioI)
+            ratioII = int(str_ratioII)# zero condition test case
+            total = ratioI + ratioII
+            ratio1 = ratioI / total
+            ratio2 = ratioII / total
+            mixed_arr = (1 - ratio1) * resultI + (ratio2) * resultII
+            mixed_img = np.abs(np.fft.ifft2(np.fft.ifftshift(mixed_arr)))
+            # return mixed_img
+            norm = cv2.normalize(result, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+            retval, buffer = cv2.imencode('.jpg', norm)
+            response = buffer.tobytes()
+        logging.info(f"Applied transformation on image")
+        return response
