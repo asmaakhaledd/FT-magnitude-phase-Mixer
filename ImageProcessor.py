@@ -74,8 +74,8 @@ class ImageProcessor:
                 ph1=component1obj.component_result("Phase")
                 mag2=component2obj.component_result("Magnitude")
                 ph2=component2obj.component_result("Phase")
-                mag_mix = (1 - ratio1) * mag1 +  (ratio2) * mag2
-                ph_mix=(ratio1) * ph1 +  (1 -ratio2) *ph2
+                mag_mix = (ratio1) * mag1 +  (1-ratio1) * mag2
+                ph_mix=(1-ratio2) * ph1 +  (ratio2) *ph2
                 combined = np.multiply(mag_mix, np.exp(1j * ph_mix))
             elif((component1=="Uniform Magnitude" and component2=="Uniform Phase") or (component2=="Uniform Magnitude" and component1=="Uniform Phase")):
                 uni_mag1=component1obj.component_result("Uniform Magnitude")
@@ -90,8 +90,8 @@ class ImageProcessor:
                 img1=component1obj.component_result("Imaginary")
                 real2=component2obj.component_result("Real")
                 img2=component2obj.component_result("Imaginary")
-                real_mix = (1 - ratio1) * real1 +  (ratio2) * real2
-                img_mix=(ratio1) * img1 +  (1 -ratio2) *img2
+                real_mix = (ratio1) * real1 +  (1-ratio1) * real2
+                img_mix=(1-ratio2) * img1 +  (ratio2) *img2
                 combined = real_mix + img_mix * 1j
             if combined is None:
                 logging.error("Invalid Fourier components")
@@ -99,8 +99,8 @@ class ImageProcessor:
             ft_shift = np.fft.fftshift(combined) 
             mixInverse = np.real(np.fft.ifft2(ft_shift))
             # return mixed_img
-            norm = cv2.normalize(mixInverse, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-            retval, buffer = cv2.imencode('.jpg', norm)
+            # norm = cv2.normalize(mixInverse, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+            retval, buffer = cv2.imencode('.jpg', mixInverse)
             response = buffer.tobytes()
             logging.info(f"Applied transformation on image")
             return response
