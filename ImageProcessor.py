@@ -35,7 +35,7 @@ class ImageProcessor:
         if component == "Magnitude":
             #absolute value of the complex number at each point in the Fourier transformed image. It represents the strength of the corresponding frequency component. 
             #By taking the logarithm of the magnitude, we can obtain a more visually interpretable version of the Fourier spectrum (magnitude spectrum)
-            result = np.log(np.abs(self.ft_shift))
+            result = np.abs(self.ft_shift)
         elif component == "Phase":
             #angle of the complex number at each point in the Fourier transformed image. It represents the position of the corresponding frequency component in the image.
             result =  np.angle(self.ft_shift)
@@ -45,18 +45,10 @@ class ImageProcessor:
             result =  np.imag(self.ft_shift)
         elif component == "Uniform Magnitude":
             magnitude = np.abs(self.ft_shift)
-            uniform_magnitude = np.ones_like(magnitude) * np.mean(magnitude)
-            #By taking the logarithm of the magnitude, we can obtain a more visually interpretable version of the Fourier spectrum (magnitude spectrum)
-            result = np.log(magnitude / uniform_magnitude)
+            result = np.ones_like(magnitude)
         elif component == "Uniform Phase":
-            #Uniform phase refers to a transformation applied to the phase spectrum of an image such that all the phase values become uniformly distributed across the spectrum. This is done to remove any abrupt changes in the phase of the image, which can cause artifacts or distortions in the reconstructed image.
             phase =  np.angle(self.ft_shift)
-            #calculate the uniform phase spectrum by taking the exponential of the angle of the Fourier transform coefficients to create a phase spectrum with a more uniform distribution of values
-            uniform_phase = np.exp(1j * phase)
-            # create a new Fourier transform with a more uniform phase spectrum
-            new_ft_shift=self.ft_shift * uniform_phase
-            #get the angle/phase of the uniform phase new ft
-            result = np.angle(new_ft_shift)
+            result= np.zeros_like(phase)
         else:
             logging.warning(f"Invalid component: {component}")
             return None
@@ -65,35 +57,7 @@ class ImageProcessor:
 
     def return_fft(self):
         return self.ft
-
-    # def mix_components(self, resultI, resultII, fft1, fft2, str_ratioI, str_ratioII):
-    #     # Check if the input parameters are valid
-    #     if resultI is None or resultII is None or fft1 is None or fft2 is None:
-    #         logging.error("Invalid input parameters")
-    #         return None
-    #     ratioI = int(str_ratioI)
-    #     ratioII = int(str_ratioII)# zero condition test case
-    #     total = ratioI + ratioII
-    #     ratio1 = ratioI / total
-    #     ratio2 = ratioII / total
-    #     # Mix the two component results
-    #     mixed_result = cv2.addWeighted(resultI, ratio1, resultII, ratio2, 0)
-    #     # Create a three-channel array representing the mixed Fourier transform
-    #     mixed_fft = np.zeros((fft1.shape[0], fft1.shape[1], 3), dtype=np.float32)
-    #     mixed_fft[:, :, 1] = fft2.real
-    #     mixed_fft[:, :, 2] = fft2.imag
-    #     mixed_fft[:, :, 0] = mixed_result
-
-    #     # Inverse Fourier transform to get the mixed image
-    #     mixed_image = np.fft.ifft2(np.fft.ifftshift(mixed_fft[:, :, 0] + mixed_fft[:, :, 1]*1j + mixed_fft[:, :, 2]*1j)).real
-    #     # Normalize the image and return it
-    #     norm = cv2.normalize(mixed_image, None, 0, 1, cv2.NORM_MINMAX, dtype=cv2.CV_32F)
-    #     norm = (255*norm).astype(np.uint8)
-    #     retval, buffer = cv2.imencode('.jpg', norm)
-    #     response = buffer.tobytes()
-    #     logging.info(f"Applied transformation on image")
-    #     return response
-
+    
     def mix_components(self,component1,component2,component1obj,component2obj,str_ratioI, str_ratioII):
             # Check if the input parameters are valid
             # if resultI is None or resultII is None:
@@ -113,18 +77,27 @@ class ImageProcessor:
                 mag_mix = (1 - ratio1) * mag1 +  (ratio2) * mag2
                 ph_mix=(ratio1) * ph1 +  (1 -ratio2) *ph2
                 combined = np.multiply(mag_mix, np.exp(1j * ph_mix))
+            elif((component1=="Uniform Magnitude" and component2=="Uniform Phase") or (component2=="Uniform Magnitude" and component1=="Uniform Phase")):
+                uni_mag1=component1obj.component_result("Uniform Magnitude")
+                uni_ph1=component1obj.component_result("Uniform Phase")
+                uni_mag2=component2obj.component_result("Uniform Magnitude")
+                uni_ph2=component2obj.component_result("Uniform Phase")
+                mag_mix = (1 - ratio1) * uni_mag1 +  (ratio2) * uni_mag2
+                ph_mix=(ratio1) * uni_ph1 +  (1 -ratio2) *uni_ph2
+                combined = np.multiply(mag_mix, np.exp(1j * ph_mix))    
             elif(component1=="Real" and component2=="Imaginary" or component2=="Real" and component1=="Imaginary"):
                 real1=component1obj.component_result("Magnitude")
                 img1=component1obj.component_result("Phase")
                 real2=component2obj.component_result("Magnitude")
                 img2=component2obj.component_result("Phase")
-                real_mix = (ratio1) * real1 +  (1 - ratio2) * real2
+                real_mix = (1 - ratio1) * real1 +  (ratio2) * real2
                 img_mix=(ratio1) * img1 +  (1 -ratio2) *img2
                 combined = real_mix + img_mix * 1j
             if combined is None:
                 logging.error("Invalid Fourier components")
                 return None
-            mixInverse = np.real(np.fft.ifft2(combined))
+            ft_shift = np.fft.fftshift(combined) 
+            mixInverse = np.real(np.fft.ifft2(ft_shift))
             # return mixed_img
             norm = cv2.normalize(mixInverse, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             retval, buffer = cv2.imencode('.jpg', norm)
