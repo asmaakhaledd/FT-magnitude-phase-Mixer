@@ -46,17 +46,33 @@ class ImageProcessor:
         elif component == "Uniform Magnitude":
             magnitude = np.abs(self.ft_shift)
             uniform_magnitude = np.ones_like(magnitude) * np.mean(magnitude)
-            #By taking the logarithm of the magnitude, we can obtain a more visually interpretable version of the Fourier spectrum (magnitude spectrum)
-            result = np.log(magnitude / uniform_magnitude)
+            # Set the magnitude spectrum to a constant value
+            magnitude_uniform = uniform_magnitude
+            # Set the phase spectrum to a constant value of zero
+            phase_uniform = np.zeros_like(magnitude)
+            # Combine the magnitude and phase spectra
+            ft_uniform = magnitude_uniform * np.exp(1j * phase_uniform)
+            # Shift the Fourier transform back to the original position
+            ft_uniform_shift = np.fft.ifftshift(ft_uniform)
+            # Reconstruct the image using the inverse Fourier transform
+            image_uniform = np.fft.ifft2(ft_uniform_shift)
+            # Take the absolute value of the complex image to get the real image
+            result = np.abs(image_uniform)
         elif component == "Uniform Phase":
-            #Uniform phase refers to a transformation applied to the phase spectrum of an image such that all the phase values become uniformly distributed across the spectrum. This is done to remove any abrupt changes in the phase of the image, which can cause artifacts or distortions in the reconstructed image.
-            phase =  np.angle(self.ft_shift)
-            #calculate the uniform phase spectrum by taking the exponential of the angle of the Fourier transform coefficients to create a phase spectrum with a more uniform distribution of values
-            uniform_phase = np.exp(1j * phase)
-            # create a new Fourier transform with a more uniform phase spectrum
-            new_ft_shift=self.ft_shift * uniform_phase
-            #get the angle/phase of the uniform phase new ft
-            result = np.angle(new_ft_shift)
+            phase = np.angle(self.ft_shift)
+            uniform_phase = np.ones_like(phase) * np.mean(phase)
+            # Set the phase spectrum to a constant value
+            phase_uniform = uniform_phase
+            # Set the magnitude spectrum to a constant value of one
+            magnitude_uniform = np.ones_like(phase)
+            # Combine the magnitude and phase spectra
+            ft_uniform = magnitude_uniform * np.exp(1j * phase_uniform)
+            # Shift the Fourier transform back to the original position
+            ft_uniform_shift = np.fft.ifftshift(ft_uniform)
+            # Reconstruct the image using the inverse Fourier transform
+            image_uniform = np.fft.ifft2(ft_uniform_shift)
+            # Take the absolute value of the complex image to get the real image
+            result = np.abs(image_uniform)
         else:
             logging.warning(f"Invalid component: {component}")
             return None
@@ -140,21 +156,4 @@ class ImageProcessor:
     #     return response
 
   
-    def mix_components(self, resultI, resultII, str_ratioI, str_ratioII):
-            # Check if the input parameters are valid
-            if resultI is None or resultII is None:
-                logging.error("Invalid input parameters")
-                return None
-            ratioI = int(str_ratioI)
-            ratioII = int(str_ratioII)# zero condition test case
-            total = ratioI + ratioII
-            ratio1 = ratioI / total
-            ratio2 = ratioII / total
-            mixed_arr = (1 - ratio1) * resultI + (ratio2) * resultII
-            mixed_img = np.abs(np.fft.ifft2(np.fft.ifftshift(mixed_arr)))
-            # return mixed_img
-            norm = cv2.normalize(result, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-            retval, buffer = cv2.imencode('.jpg', norm)
-            response = buffer.tobytes()
-        logging.info(f"Applied transformation on image")
-        return response
+   
