@@ -86,10 +86,10 @@ class ImageProcessor:
                 ph_mix=(ratio1) * uni_ph1 +  (1 -ratio2) *uni_ph2
                 combined = np.multiply(mag_mix, np.exp(1j * ph_mix))    
             elif(component1=="Real" and component2=="Imaginary" or component2=="Real" and component1=="Imaginary"):
-                real1=component1obj.component_result("Magnitude")
-                img1=component1obj.component_result("Phase")
-                real2=component2obj.component_result("Magnitude")
-                img2=component2obj.component_result("Phase")
+                real1=component1obj.component_result("Real")
+                img1=component1obj.component_result("Imaginary")
+                real2=component2obj.component_result("Real")
+                img2=component2obj.component_result("Imaginary")
                 real_mix = (1 - ratio1) * real1 +  (ratio2) * real2
                 img_mix=(ratio1) * img1 +  (1 -ratio2) *img2
                 combined = real_mix + img_mix * 1j
