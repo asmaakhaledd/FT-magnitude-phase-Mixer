@@ -122,6 +122,8 @@ class ImageProcessor:
         combined_ft = mixed_result * np.exp(1j * np.angle(resultI)) + (1 - mixed_result) * np.exp(1j * np.angle(resultII))
 
           # Inverse Fourier transform to get the mixed image
+          #ft_shift = np.fft.fftshift(combined_ft) 
+          #mixInverse = np.real(np.fft.ifft2(ft_shift))
         mixed_image = np.fft.ifft2(combined_ft).real
         
        
