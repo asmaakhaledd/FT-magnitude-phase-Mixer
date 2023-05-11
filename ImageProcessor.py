@@ -38,7 +38,7 @@ class ImageProcessor:
         if component == "Magnitude":
             # absolute value of the complex number at each point in the Fourier transformed image. It represents the strength of the corresponding frequency component.
             # By taking the logarithm of the magnitude, we can obtain a more visually interpretable version of the Fourier spectrum (magnitude spectrum)
-            result = np.log(np.abs(self.ft_shift))
+            result = np.abs(self.ft_shift)
         elif component == "Phase":
             # angle of the complex number at each point in the Fourier transformed image. It represents the position of the corresponding frequency component in the image.
             result = np.angle(self.ft_shift)
