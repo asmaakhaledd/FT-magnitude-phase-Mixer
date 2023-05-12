@@ -97,8 +97,8 @@ class ImageProcessor:
                 ph1=component1obj.component_result("Phase")
                 mag2=component2obj.component_result("Magnitude")
                 ph2=component2obj.component_result("Phase")
-                mag_mix = (ratio1) * mag1 +  (1-ratio1) * mag2
-                ph_mix=(1-ratio2) * ph1 +  (ratio2) *ph2
+                mag_mix = (1-ratio1) * mag1 +  (ratio2) * mag2
+                ph_mix=(ratio1) * ph1 +  (1-ratio2) *ph2
                 combined = np.multiply(mag_mix, np.exp(1j * ph_mix))
             elif((component1=="Uniform Magnitude" and component2=="Uniform Phase") or (component2=="Uniform Magnitude" and component1=="Uniform Phase")):
                 uni_mag1=component1obj.component_result("Uniform Magnitude")
