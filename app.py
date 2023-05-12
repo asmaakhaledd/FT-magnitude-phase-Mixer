@@ -5,14 +5,18 @@ import cv2
 import base64
 
 app = Flask(__name__)
+# instances of the ImageProcessor class used to process the images uploaded by the user
 processor = ImageProcessor()
 processor1 = ImageProcessor()
 processor2 = ImageProcessor()
 
+# define the home page
 @app.route('/')
 def index():
     return render_template('index.html')
 
+# define the route to process the uploaded image
+# It takes an uploaded image file and a component name as inputs, performs FFT on the image, extracts the specified component, and returns the result as a JPEG image
 @app.route('/process_image', methods=['POST'])
 def process_image():
     # Get user inputs
@@ -23,6 +27,9 @@ def process_image():
     response =processor.display_image(component)
     return Response(response=response, status=200, mimetype='image/jpeg')
 
+# define the route to mix two images using FFT
+# It takes two uploaded image files, two component names, and two mixing ratios as inputs, performs FFT on each image, 
+# extracts the specified components, mixes them according to the given ratios, and returns the resulting mixed image as a JPEG image
 @app.route('/fftmixer', methods=['POST'])
 def fftmixer():
     image1 = request.files['image1']
