@@ -2,18 +2,23 @@ import numpy as np
 import cv2
 import logging
 
+# Setup logging configuration
 logging.basicConfig(filename='image_processor.log', level=logging.INFO)
 
+# Create ImageProcessor class
 class ImageProcessor:
+     # Constructor for ImageProcessor class
     def __init__(self):
         self.image = None 
         self.ft = None
         self.ft_shift=None
 
+  # Function to perform Fourier transform
     def perform_fft(self):
         self.ft = np.fft.fft2(self.image)
         self.ft_shift = np.fft.fftshift(self.ft)    
 
+  # Function to open image
     def open_image(self, file) -> bool:
         print(file)
         self.image = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_GRAYSCALE)
@@ -23,6 +28,7 @@ class ImageProcessor:
         logging.info(f"Opened image")
         return True
 
+ # Function to display image
     def display_image(self, component):
         result=self.component_result(component)
         norm = cv2.normalize(result, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
@@ -31,6 +37,7 @@ class ImageProcessor:
         logging.info(f"Applied transformation on image")
         return response
 
+# Function to get component result
     def component_result(self, component):
         if component == "Magnitude":
             #absolute value of the complex number at each point in the Fourier transformed image. It represents the strength of the corresponding frequency component. 
@@ -64,14 +71,15 @@ class ImageProcessor:
             # result = np.angle(new_ft_shift)
             result = np.multiply(phase , 0)
         else:
-            logging.warning(f"Invalid component: {component}")
+            logging.warning(f"Invalid component: {component}") # warn the user of an invalid component
             return None
         return result
 
-
+    # Function to return the Fourier Transform result
     def return_fft(self):
         return self.ft
     
+    # Function to mix two Fourier Transform components based on given ratios
     def mix_components(self,component1,component2,component1obj,component2obj,str_ratioI, str_ratioII):
             # Check if the input parameters are valid
             # if resultI is None or resultII is None:
@@ -83,6 +91,7 @@ class ImageProcessor:
             ratio1 = ratioI / total 
             ratio2 = ratioII / total
             combined = None  # Initialize combined with a default value
+             # Mix two Fourier Transform components based on given ratios and component types
             if((component1=="Magnitude" and component2=="Phase") or (component2=="Magnitude" and component1=="Phase")):
                 mag1=component1obj.component_result("Magnitude")
                 ph1=component1obj.component_result("Phase")
