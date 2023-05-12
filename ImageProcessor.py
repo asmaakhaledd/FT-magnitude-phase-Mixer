@@ -129,8 +129,8 @@ class ImageProcessor:
                 img1=component1obj.component_result("Imaginary")
                 real2=component2obj.component_result("Real")
                 img2=component2obj.component_result("Imaginary")
-                real_mix = (ratio1) * real1 +  (1-ratio1) * real2
-                img_mix=(1-ratio2) * img1 +  (ratio2) *img2
+                real_mix = (1-ratio1) * real1 +  (ratio2) * real2
+                img_mix=(ratio2) * img1 +  (1-ratio2) *img2
                 combined = real_mix + img_mix * 1j
             if combined is None:
                 logging.error("Invalid Fourier components")
