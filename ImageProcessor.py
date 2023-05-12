@@ -42,7 +42,7 @@ class ImageProcessor:
         if component == "Magnitude":
             #absolute value of the complex number at each point in the Fourier transformed image. It represents the strength of the corresponding frequency component. 
             #By taking the logarithm of the magnitude, we can obtain a more visually interpretable version of the Fourier spectrum (magnitude spectrum)
-            result = np.abs(self.ft_shift)
+            result = np.log(np.abs(self.ft_shift))
         elif component == "Phase":
             #angle of the complex number at each point in the Fourier transformed image. It represents the position of the corresponding frequency component in the image.
             result =  np.angle(self.ft_shift)
@@ -79,6 +79,9 @@ class ImageProcessor:
     def return_fft(self):
         return self.ft
     
+    def return_fft_shift(self):
+        return self.ft_shift
+
     # Function to mix two Fourier Transform components based on given ratios
     def mix_components(self,component1,component2,component1obj,component2obj,str_ratioI, str_ratioII):
             # Check if the input parameters are valid
@@ -93,9 +96,9 @@ class ImageProcessor:
             combined = None  # Initialize combined with a default value
              # Mix two Fourier Transform components based on given ratios and component types
             if((component1=="Magnitude" and component2=="Phase") or (component2=="Magnitude" and component1=="Phase")):
-                mag1=component1obj.component_result("Magnitude")
+                mag1=np.abs(component1obj.return_fft_shift())
                 ph1=component1obj.component_result("Phase")
-                mag2=component2obj.component_result("Magnitude")
+                mag2=np.abs(component2obj.return_fft_shift())
                 ph2=component2obj.component_result("Phase")
                 mag_mix = (1-ratio1) * mag1 +  (ratio2) * mag2
                 ph_mix=(ratio1) * ph1 +  (1-ratio2) *ph2
@@ -117,9 +120,9 @@ class ImageProcessor:
                 ph_mix=(ratio1) * uni_ph1 +  (1 -ratio2) *uni_ph2
                 combined = np.multiply(mag_mix, np.exp(1j * ph_mix))    
             elif((component1=="Magnitude" and component2=="Uniform Phase") or (component2=="Magnitude" and component1=="Uniform Phase")):
-                uni_mag1=component1obj.component_result("Magnitude")
+                uni_mag1=np.abs(component1obj.return_fft_shift())
                 uni_ph1=component1obj.component_result("Uniform Phase")
-                uni_mag2=component2obj.component_result("Magnitude")
+                uni_mag2=np.abs(component2obj.return_fft_shift())
                 uni_ph2=component2obj.component_result("Uniform Phase")
                 mag_mix = (1 - ratio1) * uni_mag1 +  (ratio2) * uni_mag2
                 ph_mix=(ratio1) * uni_ph1 +  (1 -ratio2) *uni_ph2
