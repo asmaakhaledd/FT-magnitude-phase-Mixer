@@ -36,6 +36,17 @@ formDataMix.append("image2", "");
 formDataMix.append("component2", "Magnitude");
 formDataMix.append("ratio2", 0);
 
+const modeArr = [
+  ["Magnitude", "Phase"],
+  ["Phase", "Magnitude"],
+  ["Real", "Imaginary"],
+  ["Imaginary", "Real"],
+  ["Uniform Magnitude", "Uniform Phase"],
+  ["Uniform Magnitude", "Phase"],
+  ["Phase","Uniform Magnitude" ],
+  ["Uniform Phase", "Uniform Magnitude"],
+];
+
 // Select all elements with the "imagecomponent" class and add a change event listener to each one 
 document.querySelectorAll(".imagecomponent").forEach((component,index)=>{
   component.addEventListener("change",()=>{
@@ -142,6 +153,8 @@ document.querySelectorAll(".fileinput").forEach((input,index)=>{
     mixImages();
     })
   });
+
+
 // Listen for change events on all elements with class "mixercomponent"
   document.querySelectorAll(".mixercomponent").forEach((component, index) => {
     component.addEventListener("change", () => {
@@ -152,8 +165,13 @@ document.querySelectorAll(".fileinput").forEach((input,index)=>{
         // Otherwise, set "component2" in the form data
         formDataMix.set("component2", component.value); 
       }
+      let combination=[formDataMix.get("component1"),formDataMix.get("component2")]
+      let exists = modeArr.some(
+        (arr) => arr[0] === combination[0] && arr[1] === combination[1]
+      );
+        exists?mixImages():alert("Components cannot be mixed")
       // Call the mixImages function to mix the images with the updated form data
-      mixImages();
+        // mixImages();
     });
   });
 
@@ -190,7 +208,6 @@ function mixImages() {
     .then((response) => response.blob())
     .then((result) => {
       // Convert the response blob to a URL and set it as the source of the output image element
-      console.log("img", result);
         const url = URL.createObjectURL(result);
         document.getElementById(outputSelector.value).src = url;
       });

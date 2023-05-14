@@ -84,10 +84,6 @@ class ImageProcessor:
 
     # Function to mix two Fourier Transform components based on given ratios
     def mix_components(self,component1,component2,component1obj,component2obj,str_ratioI, str_ratioII):
-            # Check if the input parameters are valid
-            # if resultI is None or resultII is None:
-            #     logging.error("Invalid input parameters")
-            #     return None
             ratioI = int(str_ratioI)
             ratioII = int(str_ratioII)# zero condition test case
             total = ratioI + ratioII
