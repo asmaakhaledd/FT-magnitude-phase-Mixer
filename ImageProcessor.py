@@ -87,9 +87,9 @@ class ImageProcessor:
     def mix_components(self, component1, component2, component1obj, component2obj, str_ratioI, str_ratioII):
         ratioI = int(str_ratioI)
         ratioII = int(str_ratioII)
-        total = ratioI + ratioII
-        ratio1 = ratioI / total
-        ratio2 = ratioII / total
+        # total = ratioI + ratioII
+        ratio1 = ratioI / 100
+        ratio2 = ratioII / 100
         
         comp1pt1 = component1obj.component_result(component1)
         comp1pt2 = component1obj.component_result(component2)
@@ -109,7 +109,7 @@ class ImageProcessor:
             combined = np.multiply(mixedpt1, np.exp(1j * mixedpt2))
             if index == 0 or index == 1:
                 combined = mixedpt1 + mixedpt2 * 1j
-                print(index)
+                
             ft_shift = np.fft.fftshift(combined)
             mixInverse = np.real(np.fft.ifft2(ft_shift))
             normalized = cv2.normalize(mixInverse, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
