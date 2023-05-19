@@ -100,9 +100,23 @@ class ImageProcessor:
             comp1pt1 = np.abs(component1obj.return_fft_shift())
         elif component2 == "Magnitude":
             comp2pt1 = np.abs(component2obj.return_fft_shift())
+        #ORIGINAL
+        # #good mag,phase but same img fliped in mixing 2 diff images
+        # mixedpt1 = (1-ratio1) * comp1pt1 + (ratio2) * comp2pt1 
+        # mixedpt2 = (ratio1) * comp1pt2 + (1-ratio2) * comp2pt2
 
-        mixedpt1 = (1 - ratio1) * comp1pt1 + ratio2 * comp2pt1
-        mixedpt2 = ratio1 * comp1pt2 + (1 - ratio2) * comp2pt2
+        # #real,img fliped in mixing 2 diff images
+        # mixedpt1 = (ratio1) * comp1pt1 +  (1-ratio2) * comp2pt1
+        # mixedpt2 =  (1-ratio1) * comp1pt2 + (ratio2) * comp2pt2
+
+        # # mag,phase not much if same image but if diff images it shows phases and standalone pics if one of sliders is 100%, same happens with img,real but flips if both not same ratio nor 100% nor 0%
+        # mixedpt1 = (1-ratio1) * comp1pt1 + (ratio1) * comp2pt1 
+        # mixedpt2 = (ratio2) * comp1pt2 + (1-ratio2) * comp2pt2
+
+        #mag and phase not bad unexplainable tbh
+        #shows img,real standalone pics if one of sliders is 100%, same happens with img,real but flips if both not same ratio nor 100% nor 0%
+        mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
+        mixedpt2 = (ratio2) * comp1pt2 + (1-ratio2) * comp2pt2
 
         try:
             index = self.modeArr.index([component1, component2])
@@ -120,58 +134,3 @@ class ImageProcessor:
         except ValueError:
             logging.error("Invalid Fourier components")
             return None
-
-
-        
-            # if((component1=="Magnitude" and component2=="Phase") or (component2=="Magnitude" and component1=="Phase")):
-            #     mag1=np.abs(component1obj.return_fft_shift())
-            #     ph1=component1obj.component_result("Phase")
-            #     mag2=np.abs(component2obj.return_fft_shift())
-            #     ph2=component2obj.component_result("Phase")
-            #     mag_mix = (1-ratio1) * mag1 +  (ratio2) * mag2
-            #     ph_mix=(ratio1) * ph1 +  (1-ratio2) *ph2
-            #     combined = np.multiply(mag_mix, np.exp(1j * ph_mix))
-            # elif((component1=="Uniform Magnitude" and component2=="Uniform Phase") or (component2=="Uniform Magnitude" and component1=="Uniform Phase")):
-            #     uni_mag1=component1obj.component_result("Uniform Magnitude")
-            #     uni_ph1=component1obj.component_result("Uniform Phase")
-            #     uni_mag2=component2obj.component_result("Uniform Magnitude")
-            #     uni_ph2=component2obj.component_result("Uniform Phase")
-            #     mag_mix = (1 - ratio1) * uni_mag1 +  (ratio2) * uni_mag2
-            #     ph_mix=(ratio1) * uni_ph1 +  (1 -ratio2) *uni_ph2
-            #     combined = np.multiply(mag_mix, np.exp(1j * ph_mix))
-            # elif((component1=="Uniform Magnitude" and component2=="Phase") or (component2=="Uniform Magnitude" and component1=="Phase")):
-            #     uni_mag1=component1obj.component_result("Uniform Magnitude")
-            #     uni_ph1=component1obj.component_result("Phase")
-            #     uni_mag2=component2obj.component_result("Uniform Magnitude")
-            #     uni_ph2=component2obj.component_result("Phase")
-            #     mag_mix = (1 - ratio1) * uni_mag1 +  (ratio2) * uni_mag2
-            #     ph_mix=(ratio1) * uni_ph1 +  (1 -ratio2) *uni_ph2
-            #     combined = np.multiply(mag_mix, np.exp(1j * ph_mix))    
-            # elif((component1=="Magnitude" and component2=="Uniform Phase") or (component2=="Magnitude" and component1=="Uniform Phase")):
-            #     uni_mag1=np.abs(component1obj.return_fft_shift())
-            #     uni_ph1=component1obj.component_result("Uniform Phase")
-            #     uni_mag2=np.abs(component2obj.return_fft_shift())
-            #     uni_ph2=component2obj.component_result("Uniform Phase")
-            #     mag_mix = (1 - ratio1) * uni_mag1 +  (ratio2) * uni_mag2
-            #     ph_mix=(ratio1) * uni_ph1 +  (1 -ratio2) *uni_ph2
-            #     combined = np.multiply(mag_mix, np.exp(1j * ph_mix))                
-            # elif(component1=="Real" and component2=="Imaginary" or component2=="Real" and component1=="Imaginary"):
-            #     real1=component1obj.component_result("Real")
-            #     img1=component1obj.component_result("Imaginary")
-            #     real2=component2obj.component_result("Real")
-            #     img2=component2obj.component_result("Imaginary")
-            #     real_mix = (1-ratio1) * real1 +  (ratio2) * real2
-            #     img_mix=(ratio2) * img1 +  (1-ratio2) *img2
-            #     combined = real_mix + img_mix * 1j
-
-            # if combined is None:
-            #     logging.error("Invalid Fourier components COMBINED")
-            #     return None
-            # ft_shift = np.fft.fftshift(combined) 
-            # mixInverse = np.real(np.fft.ifft2(ft_shift))
-            # # return mixed_img
-            # # norm = cv2.normalize(mixInverse, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-            # retval, buffer = cv2.imencode('.jpg', mixInverse)
-            # response = buffer.tobytes()
-            # logging.info(f"Applied transformation on image")
-            # return response
