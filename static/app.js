@@ -43,7 +43,7 @@ const modeArr = [
   ["Imaginary", "Real"],
   ["Uniform Magnitude", "Uniform Phase"],
   ["Uniform Magnitude", "Phase"],
-  ["Phase","Uniform Magnitude" ],
+  ["Uniform Phase","Magnitude" ],
   ["Uniform Phase", "Uniform Magnitude"],
 ];
 
