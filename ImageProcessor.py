@@ -12,7 +12,7 @@ class ImageProcessor:
         self.image = None 
         self.ft = None
         self.ft_shift=None
-        self.modeArr = [["Real", "Imaginary"],["Imaginary", "Real"],["Magnitude", "Phase"],["Phase", "Magnitude"],["Uniform Magnitude", "Uniform Phase"],["Uniform Magnitude", "Phase"],["Phase","Uniform Magnitude" ],["Uniform Phase", "Uniform Magnitude"]];
+        self.modeArr = [["Real", "Imaginary"],["Imaginary", "Real"],["Magnitude", "Phase"],["Phase", "Magnitude"],["Uniform Magnitude", "Uniform Phase"],["Uniform Magnitude", "Phase"],["Phase","Uniform Magnitude" ],["Uniform Phase", "Uniform Magnitude"],["Uniform Phase", "Magnitude"],["Magnitude", "Uniform Phase"]];
 
   # Function to perform Fourier transform
     def perform_fft(self):
@@ -60,7 +60,7 @@ class ImageProcessor:
         elif component == "Uniform Magnitude":
             magnitude = np.abs(self.ft_shift)
             uniform_magnitude = np.ones_like(magnitude) 
-            result = magnitude / uniform_magnitude
+            result = uniform_magnitude
         elif component == "Uniform Phase":
             #Uniform phase refers to a transformation applied to the phase spectrum of an image such that all the phase values become uniformly distributed across the spectrum. This is done to remove any abrupt changes in the phase of the image, which can cause artifacts or distortions in the reconstructed image.
             phase =  np.angle(self.ft_shift)
@@ -70,7 +70,7 @@ class ImageProcessor:
             # new_ft_shift=self.ft * uniform_phase
             # #get the angle/phase of the uniform phase new ft
             # result = np.angle(new_ft_shift)
-            result = np.multiply(phase , 0)
+            result = np.zeros_like(phase)
         else:
             logging.warning(f"Invalid component: {component}") # warn the user of an invalid component
             return None

@@ -30,14 +30,15 @@ let imageFile2;
 
 let formDataMix = new FormData();
 formDataMix.append("image1", "");
-formDataMix.append("component1", "Magnitude");
+formDataMix.append("component1", "");
 formDataMix.append("ratio1", 0);
 formDataMix.append("image2", "");
-formDataMix.append("component2", "Magnitude");
+formDataMix.append("component2", "");
 formDataMix.append("ratio2", 0);
 
 const modeArr = [
   ["Magnitude", "Phase"],
+  ["Magnitude", "Uniform Phase"],
   ["Phase", "Magnitude"],
   ["Real", "Imaginary"],
   ["Imaginary", "Real"],
@@ -45,6 +46,7 @@ const modeArr = [
   ["Uniform Magnitude", "Phase"],
   ["Phase","Uniform Magnitude" ],
   ["Uniform Phase", "Uniform Magnitude"],
+  ["Uniform Phase", "Magnitude"]
 ];
 
 // Select all elements with the "imagecomponent" class and add a change event listener to each one 
