@@ -12,7 +12,8 @@ class ImageProcessor:
         self.image = None 
         self.ft = None
         self.ft_shift=None
-        self.modeArr = [["Real", "Imaginary"],["Imaginary", "Real"],["Magnitude", "Phase"],["Phase", "Magnitude"],["Uniform Magnitude", "Uniform Phase"],["Uniform Magnitude", "Phase"],["Phase","Uniform Magnitude" ],["Uniform Phase", "Uniform Magnitude"],["Uniform Phase", "Magnitude"],["Magnitude", "Uniform Phase"]];
+        self.modeArr = [["Real", "Imaginary"],["Imaginary", "Real"],["Uniform Magnitude", "Uniform Phase"],["Uniform Magnitude", "Phase"],["Phase","Uniform Magnitude" ],["Uniform Phase", "Uniform Magnitude"],["Uniform Phase", "Magnitude"],["Magnitude", "Uniform Phase"],["Magnitude", "Phase"],["Phase", "Magnitude"]];
+        # self.modeArr = [["Real", "Imaginary"],["Imaginary", "Real"]];
 
   # Function to perform Fourier transform
     def perform_fft(self):
@@ -83,6 +84,8 @@ class ImageProcessor:
     def return_fft_shift(self):
         return self.ft_shift
 
+    def apply_uniform_mode(self,uniform_value, original_value, ratio):
+            return (uniform_value * ratio) + (original_value * (1 - ratio))
     # Function to mix two Fourier Transform components based on given ratios
     def mix_components(self, component1, component2, component1obj, component2obj, str_ratioI, str_ratioII):
         ratioI = int(str_ratioI)
@@ -90,9 +93,10 @@ class ImageProcessor:
         # total = ratioI + ratioII
         ratio1 = ratioI / 100
         ratio2 = ratioII / 100
-        
+        #img1
         comp1pt1 = component1obj.component_result(component1)
         comp1pt2 = component1obj.component_result(component2)
+        #img2
         comp2pt1 = component2obj.component_result(component1)
         comp2pt2 = component2obj.component_result(component2)
 
@@ -100,31 +104,23 @@ class ImageProcessor:
             comp1pt1 = np.abs(component1obj.return_fft_shift())
         elif component2 == "Magnitude":
             comp2pt1 = np.abs(component2obj.return_fft_shift())
-        #ORIGINAL
-        # #good mag,phase but same img fliped in mixing 2 diff images
-        # mixedpt1 = (1-ratio1) * comp1pt1 + (ratio2) * comp2pt1 
-        # mixedpt2 = (ratio1) * comp1pt2 + (1-ratio2) * comp2pt2
 
-        # #real,img fliped in mixing 2 diff images
-        # mixedpt1 = (ratio1) * comp1pt1 +  (1-ratio2) * comp2pt1
-        # mixedpt2 =  (1-ratio1) * comp1pt2 + (ratio2) * comp2pt2
-
-        # # mag,phase not much if same image but if diff images it shows phases and standalone pics if one of sliders is 100%, same happens with img,real but flips if both not same ratio nor 100% nor 0%
-        # mixedpt1 = (1-ratio1) * comp1pt1 + (ratio1) * comp2pt1 
-        # mixedpt2 = (ratio2) * comp1pt2 + (1-ratio2) * comp2pt2
-
-        #mag and phase not bad unexplainable tbh
-        #shows img,real standalone pics if one of sliders is 100%, same happens with img,real but flips if both not same ratio nor 100% nor 0%
         mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
         mixedpt2 = (ratio2) * comp2pt2 + (1-ratio2) * comp1pt2
 
+        if component1=="Uniform Phase" :
+            comp2pt1 = component1obj.component_result("Phase")
+        #     mixedpt1 = (comp1pt1 * (1 - ratio1)) + (comp2pt1 * (ratio1))
+            mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
+            mixedpt2 = (ratio2) * comp2pt2 + (1-ratio2)  * comp1pt1
 
-        # if ratio2 < 0.01:
-        #     mixedpt1 = ratio1 * comp1pt1 + (1 - ratio1) * comp2pt1
-        #     mixedpt2 = np.flip(comp2pt2)
-        # else:
-        #     mixedpt1 = ratio1 * comp1pt1 + ratio2 * comp2pt1
-        #     mixedpt2 = ratio1 * comp1pt2 + ratio2 * comp2pt2
+
+        # elif "Uniform" in component2:
+        #     filtered_component2 = component2.replace("Uniform ", "")
+        #     comp1pt1 = component1obj.component_result(filtered_component2)
+        #     mixedpt1 = (comp1pt1 * ratio1) + (comp2pt1 * (1 - ratio1))
+        #     mixedpt1 = (comp1pt2 * ratio2) + (comp2pt2 * (1 - ratio2))
+
 
         try:
             index = self.modeArr.index([component1, component2])
