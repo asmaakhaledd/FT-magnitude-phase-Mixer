@@ -59,8 +59,8 @@ class ImageProcessor:
         #     result= np.zeros_like(phase)
         elif component == "Uniform Magnitude":
             magnitude = np.abs(self.ft_shift)
-            uniform_magnitude = np.ones_like(magnitude) 
-            result = uniform_magnitude
+            result = np.ones_like(magnitude) 
+            
         elif component == "Uniform Phase":
             #Uniform phase refers to a transformation applied to the phase spectrum of an image such that all the phase values become uniformly distributed across the spectrum. This is done to remove any abrupt changes in the phase of the image, which can cause artifacts or distortions in the reconstructed image.
             phase =  np.angle(self.ft_shift)
@@ -116,7 +116,15 @@ class ImageProcessor:
         #mag and phase not bad unexplainable tbh
         #shows img,real standalone pics if one of sliders is 100%, same happens with img,real but flips if both not same ratio nor 100% nor 0%
         mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
-        mixedpt2 = (ratio2) * comp1pt2 + (1-ratio2) * comp2pt2
+        mixedpt2 = (ratio2) * comp2pt2 + (1-ratio2) * comp1pt2
+
+
+        # if ratio2 < 0.01:
+        #     mixedpt1 = ratio1 * comp1pt1 + (1 - ratio1) * comp2pt1
+        #     mixedpt2 = np.flip(comp2pt2)
+        # else:
+        #     mixedpt1 = ratio1 * comp1pt1 + ratio2 * comp2pt1
+        #     mixedpt2 = ratio1 * comp1pt2 + ratio2 * comp2pt2
 
         try:
             index = self.modeArr.index([component1, component2])
