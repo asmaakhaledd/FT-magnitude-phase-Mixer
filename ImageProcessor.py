@@ -109,40 +109,20 @@ class ImageProcessor:
         mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
         mixedpt2 = (ratio2) * comp2pt2 + (1-ratio2) * comp1pt2
 
-        if component1=="Uniform Phase" :
-         comp2pt1 = component1obj.component_result("Phase")
-            
-         if ratio1 < 0.1:
-            mixedpt1 = ratio2 * comp1pt1 + ( ratio2) * comp2pt1
-            mixedpt2 = np.flip(comp2pt2)
-         else:
-            mixedpt1 = comp1pt1 * ratio1 + np.multiply(comp2pt1, 0) * (1 - ratio1)
-            mixedpt2 = comp2pt2 * ratio2 + np.multiply(comp1pt1, 0) * (1 - ratio2)
-             
-            # mixedpt1 = ratio1 * comp1pt1 + ratio2 * comp2pt1
-            # mixedpt2 = ratio1 * comp1pt2 + ratio2 * comp2pt2
-            
-            # mixedpt1 = (comp1pt1 * (1 - ratio1)) + (comp2pt1 * (ratio1))
-            
-            # mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
-            # mixedpt2 = (ratio2) * comp2pt2 + (1-ratio2)  * comp1pt1
-
-
-        # elif "Uniform" in component2:
-        #     filtered_component2 = component2.replace("Uniform ", "")
-        #     comp1pt1 = component1obj.component_result(filtered_component2)
-        #     mixedpt1 = (comp1pt1 * ratio1) + (comp2pt1 * (1 - ratio1))
-        #     mixedpt1 = (comp1pt2 * ratio2) + (comp2pt2 * (1 - ratio2))
-
-
         try:
             index = self.modeArr.index([component1, component2])
             combined = np.multiply(mixedpt1, np.exp(1j * mixedpt2))
+            if component1=="Uniform Phase" :
+                comp1pt1 = component1obj.component_result("Uniform Phase")
+                comp2pt1 = component2obj.component_result("Phase")
+                mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
+                mixedpt2 = (ratio2) * comp1pt2 + (1-ratio2) * comp2pt2
+                combined = np.multiply(mixedpt2, np.exp(1j * mixedpt1))
             if index == 0 or index == 1:
                 combined = mixedpt1 + mixedpt2 * 1j
                 
             ft_shift = np.fft.fftshift(combined)
-            mixInverse = np.real(np.fft.ifft2(ft_shift))
+            mixInverse = (np.real(np.fft.ifft2(ft_shift)))
             normalized = cv2.normalize(mixInverse, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             retval, buffer = cv2.imencode('.jpg', normalized)
             response = buffer.tobytes()
