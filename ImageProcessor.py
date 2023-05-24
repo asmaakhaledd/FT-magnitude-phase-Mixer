@@ -110,11 +110,19 @@ class ImageProcessor:
         mixedpt2 = (ratio2) * comp2pt2 + (1-ratio2) * comp1pt2
 
         if component1=="Uniform Phase" :
-            comp2pt1 = component1obj.component_result("Phase")
-            # mixedpt1 = (comp1pt1 * (1 - ratio1)) + (comp2pt1 * (ratio1))
+         comp2pt1 = component1obj.component_result("Phase")
             
+         if ratio1 < 0.1:
+            mixedpt1 = ratio2 * comp1pt1 + ( ratio2) * comp2pt1
+            mixedpt2 = np.flip(comp2pt2)
+         else:
             mixedpt1 = comp1pt1 * ratio1 + np.multiply(comp2pt1, 0) * (1 - ratio1)
             mixedpt2 = comp2pt2 * ratio2 + np.multiply(comp1pt1, 0) * (1 - ratio2)
+             
+            # mixedpt1 = ratio1 * comp1pt1 + ratio2 * comp2pt1
+            # mixedpt2 = ratio1 * comp1pt2 + ratio2 * comp2pt2
+            
+            # mixedpt1 = (comp1pt1 * (1 - ratio1)) + (comp2pt1 * (ratio1))
             
             # mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
             # mixedpt2 = (ratio2) * comp2pt2 + (1-ratio2)  * comp1pt1
