@@ -87,6 +87,7 @@ class ImageProcessor:
     def apply_uniform_mode(self,uniform_value, original_value, ratio):
             return (uniform_value * ratio) + (original_value * (1 - ratio))
     # Function to mix two Fourier Transform components based on given ratios
+    
     def mix_components(self, component1, component2, component1obj, component2obj, str_ratioI, str_ratioII):
         ratioI = int(str_ratioI)
         ratioII = int(str_ratioII)
@@ -110,9 +111,13 @@ class ImageProcessor:
 
         if component1=="Uniform Phase" :
             comp2pt1 = component1obj.component_result("Phase")
-        #     mixedpt1 = (comp1pt1 * (1 - ratio1)) + (comp2pt1 * (ratio1))
-            mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
-            mixedpt2 = (ratio2) * comp2pt2 + (1-ratio2)  * comp1pt1
+            # mixedpt1 = (comp1pt1 * (1 - ratio1)) + (comp2pt1 * (ratio1))
+            
+            mixedpt1 = comp1pt1 * ratio1 + np.multiply(comp2pt1, 0) * (1 - ratio1)
+            mixedpt2 = comp2pt2 * ratio2 + np.multiply(comp1pt1, 0) * (1 - ratio2)
+            
+            # mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
+            # mixedpt2 = (ratio2) * comp2pt2 + (1-ratio2)  * comp1pt1
 
 
         # elif "Uniform" in component2:
