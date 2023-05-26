@@ -14,6 +14,8 @@ class ImageProcessor:
         self.ft_shift=None
         self.modeArr = [["Real", "Imaginary"],["Imaginary", "Real"],["Uniform Magnitude", "Uniform Phase"],["Uniform Magnitude", "Phase"],["Phase","Uniform Magnitude" ],["Uniform Phase", "Uniform Magnitude"],["Uniform Phase", "Magnitude"],["Magnitude", "Uniform Phase"],["Magnitude", "Phase"],["Phase", "Magnitude"]];
         # self.modeArr = [["Real", "Imaginary"],["Imaginary", "Real"]];
+        self.inverse_fourier = None
+
 
   # Function to perform Fourier transform
     def perform_fft(self):
@@ -88,46 +90,106 @@ class ImageProcessor:
             return (uniform_value * ratio) + (original_value * (1 - ratio))
     # Function to mix two Fourier Transform components based on given ratios
     
-    def mix_components(self, component1, component2, component1obj, component2obj, str_ratioI, str_ratioII):
-        ratioI = int(str_ratioI)
-        ratioII = int(str_ratioII)
-        # total = ratioI + ratioII
-        ratio1 = ratioI / 100
-        ratio2 = ratioII / 100
-        #img1
-        comp1pt1 = component1obj.component_result(component1)
-        comp1pt2 = component1obj.component_result(component2)
-        #img2
-        comp2pt1 = component2obj.component_result(component1)
-        comp2pt2 = component2obj.component_result(component2)
+    # def mix_components(self, component1obj: 'ImageProcessor', component2obj: 'ImageProcessor', str_ratioI: float, str_ratioII: float):
 
-        if component1 == "Magnitude":
-            comp1pt1 = np.abs(component1obj.return_fft_shift())
-        elif component2 == "Magnitude":
-            comp2pt1 = np.abs(component2obj.return_fft_shift())
+    #     # Get Fourier parameters for each image
+    #     Fourier_components = {
+    #         "Magnitude": [component1obj.component_result("Magnitude"), component2obj.component_result("Magnitude")],
+    #         "Phase": [component1obj.component_result("Phase"), component2obj.component_result("Phase")],
+    #         "Real": [component1obj.component_result("Real"), component2obj.component_result("Real")],
+    #         "Imaginary": [component1obj.component_result("Imaginary"), component2obj.component_result("Imaginary")],
+    #     }
 
-        mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
-        mixedpt2 = (ratio2) * comp2pt2 + (1-ratio2) * comp1pt2
+    #     # Mix the Fourier parameters based on the given ratios
+    #     mixed_Fourier_components = {
+    #         "Magnitude": self.apply_uniform_mode(Fourier_components["Magnitude"][0], Fourier_components["Magnitude"][1], str_ratioI),
+    #         "Phase": self.apply_uniform_mode(Fourier_components["Phase"][0], Fourier_components["Phase"][1], str_ratioII),
+    #         "Real": self.apply_uniform_mode(Fourier_components["Real"][0], Fourier_components["Real"][1], str_ratioI),
+    #         "Imaginary": self.apply_uniform_mode(Fourier_components["Imaginary"][0], Fourier_components["Imaginary"][1], str_ratioII),
+    #     }
 
-        try:
-            index = self.modeArr.index([component1, component2])
-            combined = np.multiply(mixedpt1, np.exp(1j * mixedpt2))
-            if component1=="Uniform Phase" :
-                comp1pt1 = component1obj.component_result("Uniform Phase")
-                comp2pt1 = component2obj.component_result("Phase")
-                mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
-                mixedpt2 = (ratio2) * comp1pt2 + (1-ratio2) * comp2pt2
-                combined = np.multiply(mixedpt2, np.exp(1j * mixedpt1))
-            if index == 0 or index == 1:
-                combined = mixedpt1 + mixedpt2 * 1j
-                
-            ft_shift = np.fft.fftshift(combined)
-            mixInverse = (np.real(np.fft.ifft2(ft_shift)))
-            normalized = cv2.normalize(mixInverse, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-            retval, buffer = cv2.imencode('.jpg', normalized)
+    #     # Combine the mixed Fourier parameters into a single Fourier transform
+    #     mixed_Fourier = mixed_Fourier_components["Magnitude"] * np.exp(1j * mixed_Fourier_components["Phase"])
+    #     mixed_Fourier = mixed_Fourier + (mixed_Fourier_components["Real"] + 1j * mixed_Fourier_components["Imaginary"])
+
+    #     # Perform inverse Fourier transform on the mixed Fourier transform
+    #     mixed_image = np.fft.ifft2(mixed_Fourier)
+    #     mixed_image = np.abs(mixed_image)
+
+    #     return mixed_image
+     
+    def inverse_fourier_transform(self, component):
+        # Perform inverse Fourier transform on the mixed Fourier transform
+        mixed_image = np.fft.ifft2(component)
+        mixed_image = np.abs(mixed_image)
+        return mixed_image
+    
+
+    # def inverse_fourier_transform(self, image):
+    #     # Compute the inverse Fourier transform of the image
+    #     image = np.fft.ifftshift(image)
+    #     image = ifft2(image)
+    #     image = np.abs(image)
+    #     image = np.uint8(image)
+    #     return image
+    
+    def mix_components(self,component_image_1, component_image_2 ,component1obj: 'ImageProcessor', component2obj: 'ImageProcessor', str_ratioI: float, str_ratioII: float):
+        """
+        Mixes two images by combining their Fourier domain components based on user-specified ratios and components.
+
+        Parameters:
+        component1obj (Images): The first image object.
+        component2obj (Images): The second image object.
+        str_ratioI (float): The ratio of the first image component to mix.
+        str_ratioII (float): The ratio of the second image component to mix.
+
+        Returns:
+        Mixed_img (np.ndarray): The mixed image as a numpy array.
+        """
+
+        # self.modeArr = [["Real", "Imaginary"], ["Imaginary", "Real"], ["Uniform Magnitude", "Uniform Phase"],
+        #                 ["Uniform Magnitude", "Phase"], ["Phase", "Uniform Magnitude"], ["Uniform Phase", "Uniform Magnitude"],
+        #                 ["Uniform Phase", "Magnitude"], ["Magnitude", "Uniform Phase"], ["Magnitude", "Phase"], ["Phase", "Magnitude"]]
+
+        for mode in self.modeArr:
+            component_image_1, component_image_2 = mode
+
+            # Get Fourier parameters for each image
+            Fourier_components = {
+                "Magnitude": [component1obj.component_result("Magnitude"), component2obj.component_result("Magnitude")],
+                "Phase": [component1obj.component_result("Phase"), component2obj.component_result("Phase")],
+                "Real": [component1obj.component_result("Real"), component2obj.component_result("Real")],
+                "Imaginary": [component1obj.component_result("Imaginary"), component2obj.component_result("Imaginary")],
+                "Uniform phase": [component1obj.component_result("Uniform phase"), component2obj.component_result("Uniform phase")],
+                "Uniform magnitude": [component1obj.component_result("Uniform magnitude"), component2obj.component_result("Uniform magnitude")]
+            }
+
+            str_ratioI = float(str_ratioI) / 100
+            str_ratioII = float(str_ratioII) / 100
+
+
+            # Mix the components based on user-specified ratios and components
+            if (component_image_1 in ["Real"] and component_image_2 in ["Imaginary"]) or (component_image_1 in ["Imaginary"] and component_image_2 in ["Real"]):
+                New_real = Fourier_components[component_image_1][0] * str_ratioI + Fourier_components[component_image_1][1] * (1 - str_ratioI)
+                New_Imag = Fourier_components[component_image_2][1] * str_ratioII + Fourier_components[component_image_2][0] * (1 - str_ratioII)
+                ratio_tuples = [New_real, New_Imag] if component_image_1 == "Real" else [New_Imag, New_real]
+                Mixed_FT = ratio_tuples[0] + 1j * ratio_tuples[1]
+
+            elif (component_image_1 in ["Magnitude", "Uniform magnitude"] and component_image_2 in ["Phase", "Uniform phase"]) or (component_image_1 in ["Phase", "Uniform phase"] and component_image_2 in ["Magnitude", "Uniform magnitude"]):
+                ratio_tuples = ["Magnitude", "Phase"] if component_image_1 in ["Magnitude", "Uniform magnitude"] else ["Phase", "Magnitude"]
+                Mixed_Mag = Fourier_components[component_image_1][0] * str_ratioI + Fourier_components[ratio_tuples[0]][1] * (1 - str_ratioI)
+
+                Mixed_Phase = Fourier_components[component_image_2][1] * str_ratioII + Fourier_components[ratio_tuples[1]][0] * (1 - str_ratioII)
+                ratio_tupless = [Mixed_Mag, Mixed_Phase] if component_image_1 in ["Magnitude", "Uniform magnitude"] else [Mixed_Phase, Mixed_Mag]
+                Mixed_FT = np.multiply(ratio_tupless[0], np.exp(1j * ratio_tupless[1]))
+
+            else:
+                continue
+
+            Image_combined = self.inverse_fourier_transform(Mixed_FT)
+            Image_combined = cv2.normalize(Image_combined, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+            retval, buffer = cv2.imencode('.jpg', Image_combined)
             response = buffer.tobytes()
             logging.info("Applied transformation on image")
             return response
-        except ValueError:
-            logging.error("Invalid Fourier components")
-            return None
+            
