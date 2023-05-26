@@ -115,13 +115,13 @@ class ImageProcessor:
         mixedpt2=self.mix_component_parts(ratio2,comp1pt2, comp2pt2)
 
         try:
-            if component1=="Uniform Phase":
+            if component1=="Uniform Phase": #reversed
                 comp2pt2 = self.fetch_component_result(component1, component1obj)
                 comp1pt2 = self.fetch_component_result("Phase", component2obj)
                 comp2pt1 = self.fetch_component_result(component2, component2obj)
                 comp1pt1 = self.fetch_component_result(component2, component1obj)
 
-            if component1=="Uniform Magnitude" and component2=="Uniform Phase": 
+            if component1=="Uniform Magnitude" and component2=="Uniform Phase": #reverse
                 comp1pt2 = self.fetch_component_result("Phase", component1obj)
                 comp2pt1 = self.fetch_component_result("Magnitude", component2obj)
 
