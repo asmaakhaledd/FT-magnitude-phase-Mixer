@@ -12,9 +12,19 @@ class ImageProcessor:
         self.image = None 
         self.ft = None
         self.ft_shift=None
-        self.modeArr = [["Real", "Imaginary"],["Imaginary", "Real"],["Uniform Magnitude", "Uniform Phase"],["Uniform Magnitude", "Phase"],["Phase","Uniform Magnitude" ],["Uniform Phase", "Uniform Magnitude"],["Uniform Phase", "Magnitude"],["Magnitude", "Uniform Phase"],["Magnitude", "Phase"],["Phase", "Magnitude"]];
-        # self.modeArr = [["Real", "Imaginary"],["Imaginary", "Real"]];
+        self.modeArr = [
+            ["Real", "Imaginary"],
+            ["Imaginary", "Real"],
+            ["Uniform Magnitude", "Uniform Phase"],
+            ["Uniform Magnitude", "Phase"],
+            ["Phase","Uniform Magnitude" ],
+            ["Uniform Phase", "Uniform Magnitude"],
+            ["Uniform Phase", "Magnitude"],
+            ["Magnitude", "Uniform Phase"],
+            ["Magnitude", "Phase"],
+            ["Phase", "Magnitude"]];
 
+    
   # Function to perform Fourier transform
     def perform_fft(self):
         self.ft = np.fft.fft2(self.image)
@@ -95,32 +105,38 @@ class ImageProcessor:
         ratio1 = ratioI / 100
         ratio2 = ratioII / 100
         #img1
-        comp1pt1 = component1obj.component_result(component1)
-        comp1pt2 = component1obj.component_result(component2)
+        comp1pt1 = self.fetch_component_result(component1, component1obj)
+        comp1pt2 = self.fetch_component_result(component2, component1obj)
         #img2
-        comp2pt1 = component2obj.component_result(component1)
-        comp2pt2 = component2obj.component_result(component2)
-
-        if component1 == "Magnitude":
-            comp1pt1 = np.abs(component1obj.return_fft_shift())
-        elif component2 == "Magnitude":
-            comp2pt1 = np.abs(component2obj.return_fft_shift())
-
-        mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
-        mixedpt2 = (ratio2) * comp2pt2 + (1-ratio2) * comp1pt2
+        comp2pt1 = self.fetch_component_result(component1, component2obj)
+        comp2pt2 = self.fetch_component_result(component2, component2obj)
+        #general mixing
+        mixedpt1=self.mix_component_parts(ratio1,comp1pt1, comp2pt1)
+        mixedpt2=self.mix_component_parts(ratio2,comp1pt2, comp2pt2)
 
         try:
+            if component1=="Uniform Phase":
+                comp2pt2 = self.fetch_component_result(component1, component1obj)
+                comp1pt2 = self.fetch_component_result("Phase", component2obj)
+                comp2pt1 = self.fetch_component_result(component2, component2obj)
+                comp1pt1 = self.fetch_component_result(component2, component1obj)
+
+            if component1=="Uniform Magnitude" and component2=="Uniform Phase": 
+                comp1pt2 = self.fetch_component_result("Phase", component1obj)
+                comp2pt1 = self.fetch_component_result("Magnitude", component2obj)
+
+            if component1=="Uniform Magnitude" and component2=="Phase":
+                comp1pt1 =self.fetch_component_result("Magnitude", component2obj)
+                comp2pt1 = self.fetch_component_result(component1, component1obj)
+                comp1pt2 = self.fetch_component_result(component2, component2obj)
+                comp2pt2 = self.fetch_component_result(component2, component1obj)
+
+            #general mixing
+            mixedpt1=self.mix_component_parts(ratio1,comp1pt1, comp2pt1)
+            mixedpt2=self.mix_component_parts(ratio2,comp1pt2, comp2pt2)
             index = self.modeArr.index([component1, component2])
-            combined = np.multiply(mixedpt1, np.exp(1j * mixedpt2))
-            if component1=="Uniform Phase" :
-                comp1pt1 = component1obj.component_result("Uniform Phase")
-                comp2pt1 = component2obj.component_result("Phase")
-                mixedpt1 = (ratio1) * comp1pt1 + (1-ratio1) * comp2pt1
-                mixedpt2 = (ratio2) * comp1pt2 + (1-ratio2) * comp2pt2
-                combined = np.multiply(mixedpt2, np.exp(1j * mixedpt1))
-            if index == 0 or index == 1:
-                combined = mixedpt1 + mixedpt2 * 1j
-                
+
+            combined = mixedpt1 + mixedpt2 * 1j if index == 0 or index == 1 else np.multiply(mixedpt1, np.exp(1j * mixedpt2))
             ft_shift = np.fft.fftshift(combined)
             mixInverse = (np.real(np.fft.ifft2(ft_shift)))
             normalized = cv2.normalize(mixInverse, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
@@ -131,3 +147,12 @@ class ImageProcessor:
         except ValueError:
             logging.error("Invalid Fourier components")
             return None
+    
+    def fetch_component_result(self,component, component_obj):
+        if component == "Magnitude":
+            return np.abs(component_obj.return_fft_shift())
+        else:
+            return component_obj.component_result(component)
+        
+    def mix_component_parts(self,ratio,part1, part2):
+        return (ratio) * part1 + (1 - ratio) * part2
