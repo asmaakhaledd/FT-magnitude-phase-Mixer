@@ -99,6 +99,16 @@ class ImageProcessor:
     # Function to mix two Fourier Transform components based on given ratios
     
     def mix_components(self, component1, component2, component1obj, component2obj, str_ratioI, str_ratioII):
+        # Fourier_components = {
+        #     "Magnitude": [component1obj.component_result("Magnitude"), component2obj.component_result("Magnitude")],
+        #     "Phase": [component1obj.component_result("Phase"), component2obj.component_result("Phase")],
+        #     "Real": [component1obj.component_result("Real"), component2obj.component_result("Real")],
+        #     "Imaginary": [component1obj.component_result("Imaginary"), component2obj.component_result("Imaginary")],
+        #     "Uniform phase": [component1obj.component_result("Uniform phase"), component2obj.component_result("Phase")],
+        #     "Uniform magnitude": [component1obj.component_result("Uniform magnitude"), component2obj.component_result("Magnitude")]
+        # }
+
+
         ratioI = int(str_ratioI)
         ratioII = int(str_ratioII)
         # total = ratioI + ratioII
@@ -121,12 +131,12 @@ class ImageProcessor:
                 comp2pt1 = self.fetch_component_result(component2, component2obj)
                 comp1pt1 = self.fetch_component_result(component2, component1obj)
 
-            if component1=="Uniform Magnitude" and component2=="Uniform Phase": #reverse
+            if component1=="Uniform Magnitude" and component2=="Uniform Phase": #reverse??
                 comp1pt2 = self.fetch_component_result("Phase", component1obj)
                 comp2pt1 = self.fetch_component_result("Magnitude", component2obj)
 
             if component1=="Uniform Magnitude" and component2=="Phase":
-                comp1pt1 =self.fetch_component_result("Magnitude", component2obj)
+                comp1pt1 = self.fetch_component_result("Magnitude", component2obj)
                 comp2pt1 = self.fetch_component_result(component1, component1obj)
                 comp1pt2 = self.fetch_component_result(component2, component2obj)
                 comp2pt2 = self.fetch_component_result(component2, component1obj)
